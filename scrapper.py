@@ -87,4 +87,3 @@ def start_gdotcom(save_folder=images_folder):
                     download_image(image_url, name, new_folder)
     infos = pd.DataFrame(infos, columns=["day","month","year","src","name"])
     infos.to_csv(os.path.join(save_folder, "images.csv"))
-
