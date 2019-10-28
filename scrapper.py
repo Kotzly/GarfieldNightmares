@@ -2,13 +2,16 @@ import requests
 import shutil
 from bs4 import BeautifulSoup
 import pandas as pd
+import multiprocessing as mp
 import os
 import tqdm
+import numpy as np
 # This is the image url.
 #image_url = "http://images.ucomics.com/comics/ga/1994/ga940101.gif"
 first_year = 1978
-last_year = 2019
-images_folder = "C:/Users/Paulo/Desktop/Python shit/GarfieldNightmares/images"
+last_year = 2019#2019
+images_folder1 = "C:/Users/Paulo/Desktop/Python shit/GarfieldNightmares/images1"
+images_folder2 = "C:/Users/Paulo/Desktop/Python shit/GarfieldNightmares/images2"
 
 #jikos_database = "http://pt.jikos.cz/garfield/"
 #garfield_database = "https://d1ejxu6vysztl5.cloudfront.net/comics/garfield/2011/2011-07-13.gif?v=1.1"
@@ -17,6 +20,8 @@ def mkdirs(folder, new_folders):
     if isinstance(new_folders, str):
         new_folders = new_folders.split("/")
     for new_folder in new_folders:
+        if isinstance(new_folder, int):
+            new_folder = str(new_folder).rjust(2, "0")
         folder = os.path.join(folder, new_folder)
         try:
             os.mkdir(folder)
@@ -32,8 +37,8 @@ def download_image(url, name, folder="."):
 
 def get_info(td, mode=0):
     day, month, year = td.text.split("/")
-    day = day.rjust(2,"0")
-    month = month.rjust(2,"0")
+    day = day.rjust(2, "0")
+    month = month.rjust(2, "0")
     src = td.find("img")["src"]
     name = src.split("/")[-1]
     return day, month, year, src, name
@@ -46,44 +51,68 @@ def get_info_from_url(url):
     return day, month, year, url, name
 
 #def start():
-def start_jikos(save_folder=images_folder):
-    infos = []
+
+def jikos_worker(td, i, save_folder):
+    print(i)
+    info = get_info(td)
+    day, month, year, url, name = info
+    new_folder = os.path.join(save_folder, year, month)
+    if not name in os.listdir(new_folder):
+        download_image(url, name, new_folder)
+    return info
+
+def start_jikos(save_folder=images_folder1, n_jobs=4):
     for year in range(first_year, last_year+1):
+        infos = []
         for month in tqdm.tqdm(range(1, 13)):
             image_url = "http://pt.jikos.cz/garfield/{}/{}/".format(year, month)
             resp = requests.get(image_url, stream=True)
             soup = BeautifulSoup(resp.content, "lxml")
             images_td = soup.find_all("td")
-            for i, image_td in enumerate(images_td):
-                info = get_info(image_td)
-                day, month, year, url, name = info
-                infos.append(info)
+            with mp.Pool(processes=n_jobs) as pool:
+                n= len(images_td)
+                save_folders = [save_folder]*n
                 mkdirs(save_folder, [year, month])
-                new_folder = os.path.join(save_folder, year, month)
-                if not name in os.listdir(new_folder):
-                    download_image(url, name, new_folder)
+                args = zip(images_td, range(n), save_folders)
+                info = pool.starmap(jikos_worker, args)
+                infos.extend(info)
             del(resp)
-    infos = pd.DataFrame(infos, columns=["day","month","year","src","name"])
-    infos.to_csv(os.path.join(save_folder, "images.csv"))
+        infos = pd.DataFrame(infos, columns=["day","month","year","src","name"])
+        infos.to_csv(os.path.join(save_folder, str(year), "images.csv"), index=False)
 
+def gdotcom_worker(save_folder, day, month, year):
+    year = str(year)
+    day = str(day).rjust(2,"0")
+    month = str(month).rjust(2,"0")
+    image_url = "https://d1ejxu6vysztl5.cloudfront.net/comics/garfield/{}/{}-{}-{}.gif?v=1.1".format(year, year, month, day)
+    resp = requests.get(image_url, stream=True)
+    soup = BeautifulSoup(resp.content, "lxml")
+    if not soup.find("error"):
+        info = get_info_from_url(image_url)
+        day, month, year, url, name = info
+        new_folder = os.path.join(save_folder, year, month)
+        download_image(image_url, name, new_folder)
+    else:
+        info = None
+    return info
 
-def start_gdotcom(save_folder=images_folder):
-    infos = []
+def start_gdotcom(save_folder=images_folder2, n_jobs=3):
     for year in range(first_year, last_year+1):
-        for month in range(1, 13):
-            for day in range(32):
-                year = str(year)
-                day = str(day).rjust(2,"0")
-                month = str(month).rjust(2,"0")
-                image_url = "https://d1ejxu6vysztl5.cloudfront.net/comics/garfield/{}/{}-{}-{}.gif?v=1.1".format(year, year, month, day)
-                resp = requests.get(image_url, stream=True)
-                soup = BeautifulSoup(resp.content, "lxml")
-                if not soup.find("error"):
-                    info = get_info_from_url(image_url)
-                    infos.append(info)
-                    day, month, year, url, name = info
-                    mkdirs(save_folder, [year, month])
-                    new_folder = os.path.join(save_folder, year, month)
-                    download_image(image_url, name, new_folder)
-    infos = pd.DataFrame(infos, columns=["day","month","year","src","name"])
-    infos.to_csv(os.path.join(save_folder, "images.csv"))
+        infos = []
+        for month in tqdm.tqdm(range(1, 12+1)):
+            save_folders = [save_folder]*32
+            years = [year]*32
+            months = [month]*32
+            days = range(32)
+            mkdirs(save_folder, [year, month])
+            args = zip(save_folders, days, months, years)
+            with mp.Pool(processes=n_jobs) as pool:
+                info = pool.starmap(gdotcom_worker, args)
+                info = [i for i in info if not i is None]
+            infos.extend(info)
+        infos = pd.DataFrame(infos, columns=["day","month","year","src","name"])
+        infos.to_csv(os.path.join(save_folder, str(year), "images.csv"), index=False)
+
+if __name__ == "__main__":
+    print("Start")
+    start_gdotcom()
