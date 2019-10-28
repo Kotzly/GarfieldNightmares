@@ -8,10 +8,8 @@ import tqdm
 import numpy as np
 # This is the image url.
 #image_url = "http://images.ucomics.com/comics/ga/1994/ga940101.gif"
-first_year = 1978
-last_year = 2019#2019
-images_folder1 = "C:/Users/Paulo/Desktop/Python shit/GarfieldNightmares/images1"
-images_folder2 = "C:/Users/Paulo/Desktop/Python shit/GarfieldNightmares/images2"
+
+from images_defines import JIKOS_SAVE_FOLDER, GDOT_SAVE_FOLDER, LAST_YEAR_DOWNLOAD, FIRST_YEAR_DOWNLOAD, YEAR_RANGE_DOWNLOAD
 
 #jikos_database = "http://pt.jikos.cz/garfield/"
 #garfield_database = "https://d1ejxu6vysztl5.cloudfront.net/comics/garfield/2011/2011-07-13.gif?v=1.1"
@@ -61,8 +59,8 @@ def jikos_worker(td, i, save_folder):
         download_image(url, name, new_folder)
     return info
 
-def start_jikos(save_folder=images_folder1, n_jobs=4):
-    for year in range(first_year, last_year+1):
+def start_jikos(save_folder=JIKOS_SAVE_FOLDER, years=YEAR_RANGE,n_jobs=4):
+    for year in years:
         infos = []
         for month in tqdm.tqdm(range(1, 13)):
             image_url = "http://pt.jikos.cz/garfield/{}/{}/".format(year, month)
@@ -96,16 +94,16 @@ def gdotcom_worker(save_folder, day, month, year):
         info = None
     return info
 
-def start_gdotcom(save_folder=images_folder2, n_jobs=3):
-    for year in range(first_year, last_year+1):
+def start_gdotcom(save_folder=GDOT_SAVE_FOLDER, years=YEAR_RANGE_DOWNLOAD, n_jobs=3):
+    for year in years:
         infos = []
         for month in tqdm.tqdm(range(1, 12+1)):
             save_folders = [save_folder]*32
-            years = [year]*32
+            years_ = [year]*32
             months = [month]*32
             days = range(32)
             mkdirs(save_folder, [year, month])
-            args = zip(save_folders, days, months, years)
+            args = zip(save_folders, days, months, years_)
             with mp.Pool(processes=n_jobs) as pool:
                 info = pool.starmap(gdotcom_worker, args)
                 info = [i for i in info if not i is None]
