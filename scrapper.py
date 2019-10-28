@@ -51,7 +51,6 @@ def get_info_from_url(url):
 #def start():
 
 def jikos_worker(td, i, save_folder):
-    print(i)
     info = get_info(td)
     day, month, year, url, name = info
     new_folder = os.path.join(save_folder, year, month)
@@ -59,7 +58,7 @@ def jikos_worker(td, i, save_folder):
         download_image(url, name, new_folder)
     return info
 
-def start_jikos(save_folder=JIKOS_SAVE_FOLDER, years=YEAR_RANGE,n_jobs=4):
+def start_jikos(save_folder=JIKOS_SAVE_FOLDER, years=YEAR_RANGE_DOWNLOAD,n_jobs=4):
     for year in years:
         infos = []
         for month in tqdm.tqdm(range(1, 13)):
@@ -98,6 +97,7 @@ def start_gdotcom(save_folder=GDOT_SAVE_FOLDER, years=YEAR_RANGE_DOWNLOAD, n_job
     for year in years:
         infos = []
         for month in tqdm.tqdm(range(1, 12+1)):
+            print(month)
             save_folders = [save_folder]*32
             years_ = [year]*32
             months = [month]*32
@@ -112,5 +112,4 @@ def start_gdotcom(save_folder=GDOT_SAVE_FOLDER, years=YEAR_RANGE_DOWNLOAD, n_job
         infos.to_csv(os.path.join(save_folder, str(year), "images.csv"), index=False)
 
 if __name__ == "__main__":
-    print("Start")
     start_gdotcom()
