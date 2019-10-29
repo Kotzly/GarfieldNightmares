@@ -5,6 +5,7 @@ Created on Mon Oct 28 18:28:08 2019
 @author: Paulo
 """
 
+ROOT_FOLDER = "C:/Users/Paulo/Desktop/Python shit/GarfieldNightmares/"
 JIKOS_SAVE_FOLDER = "C:/Users/Paulo/Desktop/Python shit/GarfieldNightmares/images1"
 GDOT_SAVE_FOLDER = "C:/Users/Paulo/Desktop/Python shit/GarfieldNightmares/images2"
 
