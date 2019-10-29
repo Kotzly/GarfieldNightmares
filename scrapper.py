@@ -6,6 +6,7 @@ import multiprocessing as mp
 import os
 import tqdm
 import numpy as np
+from utils import mkdirs
 # This is the image url.
 #image_url = "http://images.ucomics.com/comics/ga/1994/ga940101.gif"
 
@@ -13,18 +14,6 @@ from images_defines import JIKOS_SAVE_FOLDER, GDOT_SAVE_FOLDER, LAST_YEAR_DOWNLO
 
 #jikos_database = "http://pt.jikos.cz/garfield/"
 #garfield_database = "https://d1ejxu6vysztl5.cloudfront.net/comics/garfield/2011/2011-07-13.gif?v=1.1"
-
-def mkdirs(folder, new_folders):
-    if isinstance(new_folders, str):
-        new_folders = new_folders.split("/")
-    for new_folder in new_folders:
-        if isinstance(new_folder, int):
-            new_folder = str(new_folder).rjust(2, "0")
-        folder = os.path.join(folder, new_folder)
-        try:
-            os.mkdir(folder)
-        except:
-            pass
 
 def download_image(url, name, folder="."):
     file_path = os.path.join(folder, name)
