@@ -35,7 +35,7 @@ def get_info_from_filename(filename):
     return year, month, day
 
 def get_images_paths(ymd, dataset_path=GDOT_SAVE_FOLDER):
-    images = glob.glob(join(GDOT_PNG_FOLDER,"**/*.png"), recursive=True)
+    images = glob.glob(join(dataset_path, "**/*.png"), recursive=True)
     images = [image.replace("\\", "/") for image in images]
     images = [image for image in images if get_info_from_filename(image) in ymd]
     return images
@@ -46,8 +46,13 @@ def load_images(images, resize=(1200, 400), strip_mode="3"):
         with Image.open(image) as img:
             if resize:
                 img = img.resize(resize)
-            content = np.array(img.convert("RGB"))
-            data.append(content)
+            if strip_mode is not None:
+                imgs = strip_image(img, mode=strip_mode)
+                imgs = [np.array(img.convert("RGB")) for img in imgs]
+                data.extend(imgs)
+            else:
+                content = np.array(img.convert("RGB"))
+                data.append(content)
     try:
         data = np.stack(data)
     except:
