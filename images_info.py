@@ -51,6 +51,6 @@ def join_per_year(root_folder=GDOT_SAVE_FOLDER):
                     width, height = img.size
                     info = put_image_info(info, image, width=width, height=height)
         info.to_csv(image_info_file, index=False)
-        infos.append(info.values)
-    infos = pd.concatenate(infos, axis=1)
+        infos.append(info)
+    infos = pd.concat(infos, axis=0)
     infos.to_csv(join(root_folder, "images.csv"), index=False)
