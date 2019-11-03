@@ -12,16 +12,20 @@ from os.path import join, isdir
 from os import listdir as ls
 import tqdm
 
-#root_folder = GDOT_SAVE_FOLDER
 OUTPUT_FOLDER = "C:/Users/Paulo/Desktop/Python shit/GarfieldNightmares/outputpng"
 
 def convert_to(source=GDOT_SAVE_FOLDER, dest=OUTPUT_FOLDER, ext="png"):
+    """ Convert .gif images from GDOT to .png using PIL.
+        Arguments:
+            source: path to the folder where the /year/month directories are.
+            dest: destination/save path.
+            ext: extension to save. See PIL.Image for supported extensions.
+    """
     for year_folder in tqdm.tqdm(ls(source)):
         mkdirs(dest,[year_folder])
         year_save_folder = join(dest, year_folder)
         year_folder = join(source, year_folder)
         if not isdir(year_folder): continue
-#        image_info_file = join(year_folder, "images.csv")
         for month_folder in ls(year_folder):
             mkdirs(year_save_folder,[month_folder])
             month_save_folder = join(year_save_folder, month_folder)
