@@ -14,6 +14,10 @@ from os import listdir as ls
 
 def create_info_cols(df):
     """ Create width and height columns in a dataframe.
+        Arguments:
+            df: Dataframe to put the columns.
+        Returns:
+            df: Modified dataframe.
     """
     df["width"] = np.nan
     df["height"] = np.nan
@@ -21,6 +25,13 @@ def create_info_cols(df):
 
 def put_image_info(df, name, width=np.nan, height=np.nan):
     """ Put width and height information into a dataframe.
+        Arguments:
+            df: Dataframe to put width and height information.
+            name: Name of the image to put the information.
+            width: Width of the image.
+            height: Height of the image.
+        Returns:
+            df: Modified dataframe.
     """
     df.loc[df.name == name, "width"] = width
     df.loc[df.name == name, "height"] = height
@@ -28,6 +39,10 @@ def put_image_info(df, name, width=np.nan, height=np.nan):
 
 def join_per_year(root_folder=GDOT_SAVE_FOLDER):
     """ Uses all years images informations to make a info file with all csv.
+        The function will read the images.csv files, join then and put the new
+        file in the root_folder.s
+        Arguments:
+            root_folder: Folder with the year/month folders.
     """
     infos = []
     for year_folder in ls(root_folder):
