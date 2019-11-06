@@ -12,11 +12,16 @@ import dataset
 autoencoder, encoder, decoder = get_models(input_shape=(100, 100, 1), latent_dim=64)
 print("Nº of parameters: {}".format(autoencoder.count_params()))
 
-images = dataset.load_png_dataset(sample=2000, resize=(300, 100), conversion="L", strip_mode="1x3")
+images = dataset.load_png_dataset(sample=100, resize=(300, 100), conversion="L", strip_mode="1x3")
 images = (images/255).astype(np.float16)
 
-autoencoder.compile(loss="binary_crossentropy", metrics=["mse"], optimizer=Adam(lr=1e-4))
-autoencoder.fit(images, images, epochs=50, batch_size=200)
+from keras.losses import mean_squared_error, cosine
+loss1 = cosine(autoencoder.layers[0].input, autoencoder.layers[-2].output)
+loss2 = mean_squared_error(autoencoder.layers[0].input, autoencoder.layers[-2].output)
+autoencoder.compile(metrics=["mse"], optimizer=Adam(lr=1e-4))
+autoencoder.add_loss(loss1)
+autoencoder.add_loss(loss2)
+autoencoder.fit(images, images, epochs=10, batch_size=200)
 
 try:
     os.mkdir("./examples")

@@ -14,4 +14,4 @@ Each experiment consists of:
 
 By now the experiments runned are:
 
-No experiments were run yet!
+* Example : ![alt text](./example/examples/image_3257 "Logo Title Text 1")
