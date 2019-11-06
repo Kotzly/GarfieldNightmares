@@ -6,7 +6,7 @@ import multiprocessing as mp
 import os
 import tqdm
 import numpy as np
-from utils import mkdirs
+from nightmares.utils import mkdirs
 # This is the image url.
 #image_url = "http://images.ucomics.com/comics/ga/1994/ga940101.gif"
 

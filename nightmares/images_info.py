@@ -8,7 +8,7 @@ Created on Mon Oct 28 18:27:01 2019
 import pandas as pd
 import numpy as np
 from PIL import Image
-from images_defines import GDOT_SAVE_FOLDER
+from nightmares.images_defines import GDOT_SAVE_FOLDER
 from os.path import join, isdir
 from os import listdir as ls
 
