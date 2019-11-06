@@ -7,10 +7,10 @@ import os
 import tqdm
 import numpy as np
 from nightmares.utils import mkdirs
+from nightmares.images_defines import JIKOS_SAVE_FOLDER, GDOT_SAVE_FOLDER, LAST_YEAR_DOWNLOAD, FIRST_YEAR_DOWNLOAD, YEAR_RANGE_DOWNLOAD
 # This is the image url.
 #image_url = "http://images.ucomics.com/comics/ga/1994/ga940101.gif"
 
-from images_defines import JIKOS_SAVE_FOLDER, GDOT_SAVE_FOLDER, LAST_YEAR_DOWNLOAD, FIRST_YEAR_DOWNLOAD, YEAR_RANGE_DOWNLOAD
 
 #jikos_database = "http://pt.jikos.cz/garfield/"
 #garfield_database = "https://d1ejxu6vysztl5.cloudfront.net/comics/garfield/2011/2011-07-13.gif?v=1.1"
