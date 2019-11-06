@@ -7,7 +7,7 @@ Created on Tue Oct 29 21:40:27 2019
 
 from keras.preprocessing.image import ImageDataGenerator
 from keras.utils import Sequence
-from images_defines import IMAGE_INFO_CSV, GDOT_SAVE_FOLDER, GDOT_PNG_FOLDER
+from nightmares.images_defines import IMAGE_INFO_CSV, GDOT_SAVE_FOLDER, GDOT_PNG_FOLDER
 import pandas as pd
 from PIL import Image
 import glob

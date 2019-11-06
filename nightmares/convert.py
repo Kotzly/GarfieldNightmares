@@ -6,8 +6,8 @@ Created on Mon Oct 28 21:11:38 2019
 """
 
 from PIL import Image
-from images_defines import GDOT_SAVE_FOLDER
-from utils import mkdirs
+from nightmares.images_defines import GDOT_SAVE_FOLDER
+from nightmares.utils import mkdirs
 from os.path import join, isdir
 from os import listdir as ls
 import tqdm
