@@ -1,0 +1,10 @@
+{
+    "kind" : "AE",
+    "n_models" : "3",
+    "experiment_name" : "AE_example",
+    "models_names" : ["autoencoder", "encoder", "decoder"],
+    "description" : "Experiment example using a simple autoencoder",
+    "detailed_description" : "",
+    "date" : "05/11/2019",
+    "time" : "10:26:00"
+}
