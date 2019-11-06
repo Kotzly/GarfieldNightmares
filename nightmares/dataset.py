@@ -40,7 +40,9 @@ def get_images_paths(ymd, dataset_path=GDOT_PNG_FOLDER, ext="png"):
     images = [image for image in images if get_info_from_filename(image) in ymd]
     return images
 
-def load_images(images, resize=(1200, 400), strip_mode="3"):
+def load_images(images, resize=(1200, 400), strip_mode="3", conversion="RGB"):
+    if conversion in ["GRAY", "G", "gray"]:
+        conversion = "L"
     data = []
     for image in tqdm.tqdm(images):
         with Image.open(image) as img:
@@ -48,13 +50,15 @@ def load_images(images, resize=(1200, 400), strip_mode="3"):
                 img = img.resize(resize)
             if strip_mode is not None:
                 imgs = strip_image(img, mode=strip_mode)
-                imgs = [np.array(img.convert("RGB")) for img in imgs]
+                imgs = [np.array(img.convert(conversion)) for img in imgs]
                 data.extend(imgs)
             else:
-                content = np.array(img.convert("RGB"))
+                content = np.array(img.convert(conversion))
                 data.append(content)
     try:
         data = np.stack(data)
+        if data.ndim == 3:
+            data = np.expand_dims(data, 3)
     except:
         pass
     return data
