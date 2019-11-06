@@ -5,8 +5,6 @@ Development of an GAN/Autoencoder that will generate Garfield comics.
 
 ```bash
 git clone https://github.com/Kotzly/GarfieldNightmares.git
-cd GarfieldNightmares
-pip install requirements.txt
-cd dist
+cd GarfieldNightmares/dist
 pip install *.whl
 ```
