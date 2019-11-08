@@ -40,21 +40,25 @@ def get_images_paths(ymd, dataset_path=GDOT_PNG_FOLDER, ext="png"):
     images = [image for image in images if get_info_from_filename(image) in ymd]
     return images
 
-def load_images(images, resize=(1200, 400), strip_mode="3"):
+def load_images(images_paths, resize=(1200, 400), strip_mode="1x3", conversion="RGB"):
+    if conversion in ["GRAY", "G", "gray"]:
+        conversion = "L"
     data = []
-    for image in tqdm.tqdm(images):
+    for image in tqdm.tqdm(images_paths):
         with Image.open(image) as img:
             if resize:
                 img = img.resize(resize)
             if strip_mode is not None:
                 imgs = strip_image(img, mode=strip_mode)
-                imgs = [np.array(img.convert("RGB")) for img in imgs]
+                imgs = [np.array(img.convert(conversion)) for img in imgs]
                 data.extend(imgs)
             else:
-                content = np.array(img.convert("RGB"))
+                content = np.array(img.convert(conversion))
                 data.append(content)
     try:
         data = np.stack(data)
+        if data.ndim == 3:
+            data = np.expand_dims(data, 3)
     except:
         pass
     return data
@@ -71,3 +75,21 @@ def strip_image(image, mode="3"):
                  [2*dx+k, 0, w, h]]
         return [image.crop(box).resize(new_size) for box in boxes]
 
+def load_png_dataset(sample=False, resize=(1200, 400), conversion="L", strip_mode="1x3"):
+
+    df = load_images_info(height_bounds=(None, 500))
+
+    year_month_day = list(zip(df.year, df.month, df.day))
+
+    filepaths = get_images_paths(year_month_day)
+
+    if sample in (None, False):
+        sample = len(filepaths)
+
+    filepaths = np.random.choice(filepaths,
+                                 size=sample,
+                                 replace=False)
+    images = load_images(filepaths, resize=resize,
+                         conversion=conversion,
+                         strip_mode=strip_mode)
+    return images
