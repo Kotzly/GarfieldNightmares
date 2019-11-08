@@ -1,6 +1,6 @@
 # GANN
 
-  Youtuber Code Parade (HackerPoet) made exactly this in 2018. He made a hybrid GANN/Autoencoder. His first experiments results are very similar to mine, but te GANN/Autoencoder got much better. Maybe I can use it as a goal and later modify his network.
+  Youtuber Code Parade (HackerPoet) made exactly this in 2018. He made a [hybrid GANN/Autoencoder](https://github.com/HackerPoet/Avant-Garfield). His first experiments results are very similar to mine, but te GANN/Autoencoder got much better. Maybe I can use it as a goal and later modify his network in [my fork](https://github.com/Kotzly/Avant-Garfield). Thanks Code Parade!
 
 # Experiments
 
