@@ -16,3 +16,4 @@ pip install *.whl
 * Autoencoder based on [HackerPoet's FursonaGenerator](https://github.com/HackerPoet/FursonaGenerator).
 * Autoencoder using parallel convolution layers/Inception network.
 * Generative Adversarial Neural Network.
+* Hacker Poet [Garfield Comic Generator](https://github.com/HackerPoet/Avant-Garfield)!!!
