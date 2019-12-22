@@ -9,6 +9,8 @@ import os
 from keras.utils import Sequence
 from nightmares.images_defines import EXPERIMENTS_FOLDER
 from nightmares import dataset
+import warnings
+warnings.simplefilter("ignore")
 
 autoencoder, encoder, decoder = get_models()
 print("Nº of parameters: {}".format(autoencoder.count_params()))
@@ -44,15 +46,14 @@ except:
 
 autoencoder.fit_generator(train_generator, shuffle=True, epochs=epochs, steps_per_epoch=len(train_generator), verbose=1, callbacks=callbacks)
 
-
 for i in np.random.choice(range(len(images)), 10, replace=False):
     x = images[i]
     x_img = (x.squeeze()*255).astype(np.uint8)
-    Image.fromarray(x_img, "RGB").save(f"./examples/original_{i}.png")
+    Image.fromarray(x_img, "RGB").save(join(examples_folder, f"original_{i}.png"))
 
     y = autoencoder.predict(x)[0]
     y_img = (y.squeeze()*255).astype(np.uint8)
-    Image.fromarray(y_img, "RGB").save(f"./examples/image_{i}.png")
+    Image.fromarray(y_img, "RGB").save(join(examples_folder, f"image_{i}.png"))
 
 autoencoder.save(join(models_folder,"autoencoder.k"))
 encoder.save(join(models_folder,"encoder.k"))
