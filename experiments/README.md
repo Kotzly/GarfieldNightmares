@@ -1,3 +1,7 @@
+# GANN
+
+  Youtuber Code Parade (HackerPoet) made exactly this in 2018. He made a [hybrid GANN/Autoencoder](https://github.com/HackerPoet/Avant-Garfield). His first experiments results are very similar to mine, but te GANN/Autoencoder got much better. Maybe I can use it as a goal and later modify his network in [my fork](https://github.com/Kotzly/Avant-Garfield). Thanks Code Parade!
+
 # Experiments
 
 In this folder are the experiments runned during the project.
@@ -14,4 +18,4 @@ Each experiment consists of:
 
 By now the experiments runned are:
 
-* Example : ![alt text](./example/examples/image_3257 "Logo Title Text 1")
+* Example : ![alt text](/example/examples/image_3257 "Logo Title Text 1")
