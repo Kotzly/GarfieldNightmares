@@ -7,9 +7,9 @@ Created on Mon Oct 28 18:28:08 2019
 import os
 from os.path import join
 
+ROOT_FOLDER = "C:/Users/Paulo/Desktop/Python shit/GarfieldNightmares/"
 if os.path.isdir(ROOT_FOLDER):
     print("Loading PC files...")
-    ROOT_FOLDER = "C:/Users/Paulo/Desktop/Python shit/GarfieldNightmares/"
 else:
     print("Loading Drive files...")
     ROOT_FOLDER = "/content/drive/My Drive/GarfieldNightmares"
