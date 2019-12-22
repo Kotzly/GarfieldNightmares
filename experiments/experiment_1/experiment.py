@@ -7,7 +7,7 @@ import numpy as np
 from os.path import join
 import os
 from keras.utils import Sequence
-sys.path.append("../..")
+sys.path.append("../../nightmares")
 import dataset
 
 
