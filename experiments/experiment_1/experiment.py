@@ -1,6 +1,7 @@
 from model import get_models
 from keras.optimizers import Adam
 from keras.callbacks import ModelCheckpoint
+from images_defines import EXPERIMENTS_FOLDER
 import sys
 from PIL import Image
 import numpy as np
@@ -27,16 +28,17 @@ train_generator = Generator(images)
 
 epochs = 200
 batch_size = 100
-mc = ModelCheckpoint(".models/model.cpkt")
+mc = ModelCheckpoint(join(EXPERIMENTS_FOLDER, "experiment_1", "models", "model.cpkt"))
 callbacks = [mc]
 
-
+models_folder = join(EXPERIMENTS_FOLDER, "experiment_1", "models")
+examples_folder = join(EXPERIMENTS_FOLDER, "experiment_1", "examples")
 try:
-    os.mkdir("./examples")
+    os.mkdir(examples_folder)
 except:
     pass
 try:
-    os.mkdir("./models")
+    os.mkdir(models_folder)
 except:
     pass
 
@@ -52,7 +54,6 @@ for i in np.random.choice(range(len(images)), 10, replace=False):
     y_img = (y.squeeze()*255).astype(np.uint8)
     Image.fromarray(y_img, "RGB").save(f"./examples/image_{i}.png")
 
-model_folder = "./models/"
-autoencoder.save(join(model_folder,"autoencoder.k"))
-encoder.save(join(model_folder,"encoder.k"))
-decoder.save(join(model_folder,"decoder.k"))
+autoencoder.save(join(models_folder,"autoencoder.k"))
+encoder.save(join(models_folder,"encoder.k"))
+decoder.save(join(models_folder,"decoder.k"))
