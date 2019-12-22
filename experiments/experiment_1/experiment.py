@@ -7,9 +7,9 @@ import numpy as np
 from os.path import join
 import os
 from keras.utils import Sequence
-from nightmares import dataset
-
 sys.path.append("../..")
+import dataset
+
 
 autoencoder, encoder, decoder = get_models()
 print("Nº of parameters: {}".format(autoencoder.count_params()))
