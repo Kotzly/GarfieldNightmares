@@ -28,7 +28,7 @@ class Generator(Sequence):
 
 train_generator = Generator(images)
 
-epochs = 200
+epochs = 2
 batch_size = 100
 mc = ModelCheckpoint(join(EXPERIMENTS_FOLDER, "experiment_1", "models", "model.cpkt"))
 callbacks = [mc]
@@ -51,7 +51,7 @@ for i in np.random.choice(range(len(images)), 10, replace=False):
     x_img = (x.squeeze()*255).astype(np.uint8)
     Image.fromarray(x_img, "RGB").save(join(examples_folder, f"original_{i}.png"))
 
-    y = autoencoder.predict(x)[0]
+    y = autoencoder.predict(x)
     y_img = (y.squeeze()*255).astype(np.uint8)
     Image.fromarray(y_img, "RGB").save(join(examples_folder, f"image_{i}.png"))
 

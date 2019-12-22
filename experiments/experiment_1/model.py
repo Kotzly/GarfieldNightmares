@@ -170,7 +170,7 @@ def get_models():
     vae.add_loss(vae_loss)
     
     vae.compile(optimizer=Adam(lr=1e-4), metrics=["mse", "binary_crossentropy"])
-    vae.summary()
+    # vae.summary()
     
     decoder_input = Input(shape=(latent_dim,))
     _hid_decoded = decoder_hid(decoder_input)
