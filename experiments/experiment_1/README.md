@@ -1,10 +1,10 @@
 # VAE model
-Experiment example using a variational autoencoder based on [this repository](https://github.com/snatch59/keras-autoencoders/blob/master/variational_autoencoder_deconv.py).
+Experiment example using a simple deconvolutional variational autoencoder.
 
 Run in 21/12/2019 at 10:00:00
 # Examples
-![alt text](./examples\image_1.png)
-![alt text](./examples\image_2.png)
-![alt text](./examples\image_3.png)
-![alt text](./examples\image_4.png)
-![alt text](./examples\image_5.png)
+![alt text](./examples\image_1235.png)
+![alt text](./examples\image_1565.png)
+![alt text](./examples\image_1856.png)
+![alt text](./examples\image_2720.png)
+![alt text](./examples\image_2931.png)
