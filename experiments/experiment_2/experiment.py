@@ -16,7 +16,7 @@ warnings.simplefilter("ignore")
 autoencoder, encoder, decoder = get_models()
 print("Nº of parameters: {}".format(autoencoder.count_params()))
 
-images = dataset.load_png_dataset(sample=2000, resize=(360, 120), conversion="RGB", strip_mode="1x3")
+images = dataset.load_png_dataset(sample=3000, resize=(360, 120), conversion="RGB", strip_mode="1x3")
 plt.imshow(images[0])
 plt.show()
 
@@ -30,8 +30,8 @@ class Generator(Sequence):
 
 train_generator = Generator(images)
 
-epochs = 200
-batch_size = 100
+epochs = 300
+batch_size = 50
 mc = ModelCheckpoint(join(EXPERIMENTS_FOLDER, "experiment_2", "models", "model.cpkt"))
 callbacks = [mc]
 
