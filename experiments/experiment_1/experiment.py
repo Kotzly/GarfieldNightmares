@@ -53,7 +53,7 @@ for i in np.random.choice(range(len(images)), 10, replace=False):
     Image.fromarray(x_img, "RGB").save(join(examples_folder, f"original_{i}.png"))
     
     x_input = np.float16(x_img)/255
-    x_input = np.expand_dims(x, axis=0)
+    x_input = np.expand_dims(x_input, axis=0)
     y = autoencoder.predict(x_input)
     y_img = np.uint8(y[0]*255)
     Image.fromarray(y_img, "RGB").save(join(examples_folder, f"image_{i}.png"))
