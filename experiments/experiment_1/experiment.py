@@ -16,11 +16,10 @@ autoencoder, encoder, decoder = get_models()
 print("Nº of parameters: {}".format(autoencoder.count_params()))
 
 images = dataset.load_png_dataset(sample=1000, resize=(360, 120), conversion="RGB", strip_mode="1x3")
-images = (images/255).astype(np.float16)
 
 class Generator(Sequence):
   def __init__(self, imgs):
-    self.images = np.float16(imgs/255)
+    self.images = np.float16(imgs)/255
   def __len__(self):
     return len(self.images)//100
   def __getitem__(self, i):
@@ -51,9 +50,9 @@ for i in np.random.choice(range(len(images)), 10, replace=False):
     x_img = (x.squeeze()*255).astype(np.uint8)
     Image.fromarray(x_img, "RGB").save(join(examples_folder, f"original_{i}.png"))
     
-    x_input = np.expand_dims(np.array(x_img), axis=0)
+    x_input = np.expand_dims(x, axis=0)
     y = autoencoder.predict(x_input)
-    y_img = y[0]
+    y_img = np.uint8(y[0]*255)
     Image.fromarray(y_img, "RGB").save(join(examples_folder, f"image_{i}.png"))
 
 autoencoder.save(join(models_folder,"autoencoder.k"))
