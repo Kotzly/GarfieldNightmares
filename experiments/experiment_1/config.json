@@ -1,0 +1,1 @@
+{"img_rows": 120, "img_cols": 120, "img_chns": 3, "filters": 32, "num_conv": 6, "latent_dim": 6, "intermediate_dim": 196, "epsilon_std": 1}

@@ -1,0 +1,10 @@
+{
+    "kind" : "VAE",
+    "n_models" : "2",
+    "experiment_name" : "AE_example",
+    "models_names" : ["autoencoder", "decoder"],
+    "description" : "Experiment example using a simple deconvolutional variational autoencoder",
+    "detailed_description" : "",
+    "date" : "21/12/2019",
+    "time" : "10:0:00"
+}

@@ -4,12 +4,22 @@ Created on Mon Oct 28 18:28:08 2019
 
 @author: Paulo
 """
+import os
+from os.path import join
 
 ROOT_FOLDER = "C:/Users/Paulo/Desktop/Python shit/GarfieldNightmares/"
-JIKOS_SAVE_FOLDER = "C:/Users/Paulo/Desktop/Python shit/GarfieldNightmares/images1"
-GDOT_SAVE_FOLDER = "C:/Users/Paulo/Desktop/Python shit/GarfieldNightmares/images2"
-GDOT_PNG_FOLDER = "C:/Users/Paulo/Desktop/Python shit/GarfieldNightmares/png"
-IMAGE_INFO_CSV = "C:/Users/Paulo/Desktop/Python shit/GarfieldNightmares/images2/images.csv"
+if os.path.isdir(ROOT_FOLDER):
+    print("Loading PC files...")
+    IMAGE_INFO_CSV = join(ROOT_FOLDER, "images2/images.csv")
+else:
+    print("Loading Drive files...")
+    ROOT_FOLDER = "/content/drive/My Drive/GarfieldNightmares"
+    IMAGE_INFO_CSV = join(ROOT_FOLDER, "png/images.csv")
+
+JIKOS_SAVE_FOLDER = join(ROOT_FOLDER, "images1")
+GDOT_SAVE_FOLDER = join(ROOT_FOLDER, "images2")
+GDOT_PNG_FOLDER = join(ROOT_FOLDER, "png")
+EXPERIMENTS_FOLDER = join(ROOT_FOLDER, "experiments")
 
 FIRST_YEAR_DOWNLOAD = 1978
 LAST_YEAR_DOWNLOAD = 2019
