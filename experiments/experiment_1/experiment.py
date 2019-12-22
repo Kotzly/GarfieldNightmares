@@ -1,13 +1,13 @@
 from model import get_models
 from keras.optimizers import Adam
 from keras.callbacks import ModelCheckpoint
-from images_defines import EXPERIMENTS_FOLDER
 import sys
 from PIL import Image
 import numpy as np
 from os.path import join
 import os
 from keras.utils import Sequence
+from nightmares.images_defines import EXPERIMENTS_FOLDER
 from nightmares import dataset
 
 autoencoder, encoder, decoder = get_models()
