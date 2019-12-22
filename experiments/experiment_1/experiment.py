@@ -7,6 +7,7 @@ import numpy as np
 from os.path import join
 import os
 from keras.utils import Sequence
+import matplotlib.pyplot as plt
 from nightmares.images_defines import EXPERIMENTS_FOLDER
 from nightmares import dataset
 import warnings
@@ -15,7 +16,9 @@ warnings.simplefilter("ignore")
 autoencoder, encoder, decoder = get_models()
 print("Nº of parameters: {}".format(autoencoder.count_params()))
 
-images = dataset.load_png_dataset(sample=1000, resize=(360, 120), conversion="RGB", strip_mode="1x3")
+images = dataset.load_png_dataset(sample=100, resize=(360, 120), conversion="RGB", strip_mode="1x3")
+plt.imshow(images[0])
+plt.show()
 
 class Generator(Sequence):
   def __init__(self, imgs):
@@ -27,7 +30,7 @@ class Generator(Sequence):
 
 train_generator = Generator(images)
 
-epochs = 200
+epochs = 20
 batch_size = 100
 mc = ModelCheckpoint(join(EXPERIMENTS_FOLDER, "experiment_1", "models", "model.cpkt"))
 callbacks = [mc]
@@ -46,15 +49,19 @@ except:
 autoencoder.fit_generator(train_generator, shuffle=True, epochs=epochs, steps_per_epoch=len(train_generator), verbose=1, callbacks=callbacks)
 
 for i in np.random.choice(range(len(images)), 10, replace=False):
-    x = images[i]
-    x_img = (x.squeeze()*255).astype(np.uint8)
+    x_img = images[i]
     Image.fromarray(x_img, "RGB").save(join(examples_folder, f"original_{i}.png"))
     
+    x_input = np.float16(x_img)/255
     x_input = np.expand_dims(x, axis=0)
     y = autoencoder.predict(x_input)
     y_img = np.uint8(y[0]*255)
     Image.fromarray(y_img, "RGB").save(join(examples_folder, f"image_{i}.png"))
-
+    plt.imshow(x_img)
+    plt.show()
+    plt.imshow(y_img_img)
+    plt.show()
+    
 autoencoder.save(join(models_folder,"autoencoder.k"))
 encoder.save(join(models_folder,"encoder.k"))
 decoder.save(join(models_folder,"decoder.k"))
