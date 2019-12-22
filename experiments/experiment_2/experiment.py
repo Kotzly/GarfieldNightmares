@@ -32,11 +32,11 @@ train_generator = Generator(images)
 
 epochs = 200
 batch_size = 100
-mc = ModelCheckpoint(join(EXPERIMENTS_FOLDER, "experiment_1", "models", "model.cpkt"))
+mc = ModelCheckpoint(join(EXPERIMENTS_FOLDER, "experiment_2", "models", "model.cpkt"))
 callbacks = [mc]
 
-models_folder = join(EXPERIMENTS_FOLDER, "experiment_1", "models")
-examples_folder = join(EXPERIMENTS_FOLDER, "experiment_1", "examples")
+models_folder = join(EXPERIMENTS_FOLDER, "experiment_2", "models")
+examples_folder = join(EXPERIMENTS_FOLDER, "experiment_2", "examples")
 try:
     os.mkdir(examples_folder)
 except:
