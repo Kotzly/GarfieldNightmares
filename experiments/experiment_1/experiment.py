@@ -52,7 +52,8 @@ for i in np.random.choice(range(len(images)), 10, replace=False):
     Image.fromarray(x_img, "RGB").save(join(examples_folder, f"original_{i}.png"))
     
     x_input = np.expand_dims(np.array(x_img), axis=0)
-    y_img = autoencoder.predict(x_input)
+    y = autoencoder.predict(x_input)
+    y_img = y[0]
     Image.fromarray(y_img, "RGB").save(join(examples_folder, f"image_{i}.png"))
 
 autoencoder.save(join(models_folder,"autoencoder.k"))
